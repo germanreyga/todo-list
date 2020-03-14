@@ -1,0 +1,37 @@
+<main role="main" class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1>TODO List</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <form class="form-inline" action="/tasks" method="POST">
+        <div class="input-group w-100">
+          <input type="text" name="description" placeholder="I have to..." class="form-control">
+          <div class="input-group-append">
+            <input type="submit" value="Add" class="btn btn-primary">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      {{#each tasks}}
+      <div class="card my-3 {{#eq status 'done' }}bg-light{{/eq}}">
+        <div class="card-body">
+          <p class="card-text">{{ description }}</p>
+          <p class="card-text text-info">{{ this.status }}</p>
+          {{#eq status 'pending'}}
+          <form method="POST" action="/change/done" class="my-form">
+            <input type="hidden" id="id" name="id" value="{{this.id}}">
+            <a href="javascript:;" onclick="parentNode.submit()" class="card-link">Done</a>
+          </form>
+          {{/eq}}
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</main>
