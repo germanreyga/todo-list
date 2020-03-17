@@ -1,10 +1,8 @@
-# Express Boilerplate
+# TODO list
 
-Este proyecto lo puedes utilizar como base para construir tus sistemas.
+Uses AJAX to handle HTTP requests and update a list of tasks in a database
 
-El proyecto ya viene configurado con algunos paquetes comunes que utilizamos.
-
-## Instalación
+## Install
 
 ```shell
 npm install
