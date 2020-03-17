@@ -8,7 +8,7 @@ Uses AJAX to handle HTTP requests and update a list of tasks in a database
 npm install
 ```
 
-## Ejecución
+## Run
 ```
 node server.js
 ```
