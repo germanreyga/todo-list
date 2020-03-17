@@ -18,3 +18,8 @@ exports.changeDone = (req, res) => {
     Task.find(req.body.id).then(task => res.json(task));
   });
 };
+
+exports.delete = (req, res) => {
+  let id = req.body.id;
+  Task.delete(id).then(task => res.json(task));
+};

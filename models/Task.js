@@ -25,3 +25,11 @@ exports.DONE = id => {
       status: "done"
     });
 };
+
+exports.delete = id => {
+  console.log("Deleting: " + id);
+  return knex
+    .from("tasks")
+    .where("id", id)
+    .del();
+};

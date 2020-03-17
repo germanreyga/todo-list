@@ -29,6 +29,9 @@
             <a href="javascript:;" class="card-link" onclick="changeStatus({{this.id}});">Mark as done</a>
           </form>
           {{/eq}}
+          <div class="text-right">
+            <a href="javascript:;" class="btn btn-sm btn-danger" onclick="deleteTask({{this.id}});">delete</a>
+          </div>
         </div>
       </div>
       {{/each}}
@@ -65,9 +68,12 @@
       <form method="" action="" class="my-form>
         <input type="hidden" id="id" name="id" value="${task.id}">
           <a href="javascript:;" onclick="changeStatus(${task.id});" class="card-link">Mark as done</a> 
-          </form> 
-        </div>
-    </div >`;
+      </form> 
+      <div class="text-right">
+        <a href="javascript:;" class="btn btn-sm btn-danger" onclick="deleteTask(${task.id});">delete</a>
+      </div>
+      </div>
+    </div>`;
     document.getElementById('tasksList').innerHTML += (html);
   }
 
@@ -84,7 +90,6 @@
         console.log("Petition failed...");
       }
     }).then(task => {
-      console.log(task);
       changeTask(task);
     }).catch(error => {
       console.log("Error: ", error);
@@ -92,9 +97,32 @@
   }
 
   function changeTask(task) {
-    console.log(task.id)
     $(`.task-${task.id} form`).remove();
     $(`.task-${task.id}`).addClass("bg-light");
     $(`.task-${task.id} .text-info`).text(task.status);
   }
+
+  function deleteTask(id) {
+    $.ajax({
+      url: '/delete',
+      data: { id: id },
+      type: 'DELETE',
+      dataType: 'json',
+      success: function () {
+        console.log("Task deleted!");
+      },
+      error: function () {
+        console.log("Petition failed...");
+      }
+    }).then(_ => {
+      removeTask(id);
+    }).catch(error => {
+      console.log("Error: ", error);
+    });
+  }
+
+  function removeTask(id) {
+    $(`.task-${id}`).remove();
+  }
+
 </script>
