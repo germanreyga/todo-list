@@ -14,8 +14,7 @@ exports.store = (req, res) => {
 
 exports.changeDone = (req, res) => {
   let id = req.body.id;
-  Task.DONE(id).then(id => {
-    console.log("Changed status to DONE for task with id: ", id);
-    res.redirect("/");
+  Task.DONE(id).then(_ => {
+    Task.find(req.body.id).then(task => res.json(task));
   });
 };
