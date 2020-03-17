@@ -21,7 +21,7 @@
       {{#each tasks}}
       <div class="card my-3 {{#eq status 'done' }}bg-light{{/eq}}">
         <div class="card-body">
-          <p class="card-text">{{ description }}</p>
+          <p class="card-text">{{ this.description }}</p>
           <p class="card-text text-info">{{ this.status }}</p>
           {{#eq status 'pending'}}
           <form method="POST" action="/change/done" class="my-form">
@@ -38,42 +38,41 @@
 <script>
   function createTask() {
     let description = document.getElementById('taskDescription').value;
-    let body = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+    $.ajax({
+      url: '/tasks',
+      data: { description: description },
+      type: 'POST',
+      dataType: 'json',
+      success: function (json) {
+        console.log("Petición correcta");
       },
-      body: JSON.stringify({ description: description })
-    };
-    fetch('/tasks', body).then(response => {
-      console.log(body);
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw "Error in the AJAX call"
+      error: function (xhr, status) {
+        console.log("Petición falla");
+      },
+      complete: function (xhr, status) {
+        alert('Petición realizada');
       }
     }).then(task => {
       document.getElementById('taskDescription').value = '';
-      //addTask(task);
+      addTask(task);
     }).catch(error => {
       console.log("Error: ", error);
-    })
+    });
   }
 
-  function addTask(tasks) {
-    /*let html =
-    ´
-    <div class="card my-3">
-      <div class="card-body">
-        <p class="card-text"></p>
-        <p class="card-text text-info"></p>
-        <form method="POST" action="/change/done" class="my-form">
-          <input type="hidden" id="id" name="id" value="">
-            <a href="javascript:;" onclick="parentNode.submit()" class="card-link">Mark as done</a>
-          </form>
+  function addTask(task) {
+    console.log(task);
+    let html =
+      `<div class="card my-3"><div class="card-body">
+      <p class="card-text">${task.description}</p>
+      <p class="card-text text-info">${task.status}</p>
+      <form method="POST" action="/change/done" class="my-form">
+        <input type="hidden" id="id" name="id" value="${task.id}">
+          <a href="javascript:;" onclick="parentNode.submit()" class="card-link">Mark as done</a> 
+          </form> 
         </div>
-      </div>
-      ´;*/
+    </div >`;
+    document.getElementById('tasksList').innerHTML += (html);
+
   }
 </script>
